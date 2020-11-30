@@ -17,7 +17,7 @@ filtersize=7;
   W0_x=fftshift(ifft2(ifftshift(Kspace_image(:,:,30))));
   W1_x=fftshift(ifft2(ifftshift(Kspace_image(:,:,30:31))));
 % 
-cartesian_mask=imread('/media/fatma/Elements/Windows Masaüstü/Alper Hoca Mask/6lıı masklar/4.png');
+cartesian_mask=imread('Cartesian Mask'.png');
 cartesian_mask=logical(cartesian_mask);
 % cartesian_mask=imrotate(cartesian_mask,90);
 cartesian_mask=double(imresize(cartesian_mask,[row_kspace,column_kspace]));
@@ -60,34 +60,6 @@ sense_recon = squeeze(reco);
 figure, imshow(abs(sense_recon), []); title('ESPIRiT Reconstruction')
 
 % nrmse_l1_wav=bart('nrmse',W0_x,sense_recon)
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Reconst_image=im2double(sense_recon);%%reconstructed image 
-Ground_truth=im2double(W0_x);%%%% reference image
-% % % 
- Reconst_image=abs(sense_recon);%%reconstructed image 
- Ground_truth= abs(W0_x);%%%% reference image
-% % 
-% % % MSE=sqrt(sum(sum(abs(Reconst_image-Ground_truth).^2)));
-% % % 
-% % % %%%Normalized MSE
-% % % NMSE=MSE/sqrt(sum(sum(abs(Ground_truth).^2)));
-% % % 
-% % % %%%%% PSNR
-% % % max_intensity=max(max(Reconst_image)).^2;
-% % % Ratio=max_intensity/MSE;
-% % % PSNR=10*log10(Ratio);
-% % % 
-% % % %%%%% Structural Similarity
-% % % 
-% % % SSIM=ssim(real(Reconst_image),real(Ground_truth));
-% % % 
-% % % %%%%L1 error
-% % % 
-% % % L1error=sum(sum(abs(Reconst_image-Ground_truth)));
-% % % 
-
-
 
 [window] = window1(sigma,filtersize);
 
