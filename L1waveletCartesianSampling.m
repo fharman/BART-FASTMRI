@@ -1,21 +1,21 @@
- h5info('file1000052.h5'); 
- Struct1=h5read('file1000052.h5','/kspace'); 
- Kspace_image=Struct1.r+i*Struct1.i; 
- LAMBDA=0.075;
- ITER=100;
+h5info('file1000052.h5'); 
+Struct1=h5read('file1000052.h5','/kspace'); 
+Kspace_image=Struct1.r+i*Struct1.i; 
+LAMBDA=0.075;
+ITER=100;
  
- K=[0.01 0.03];
- L=255 ;
- sigma=1;
+K=[0.01 0.03];
+L=255 ;
+sigma=1;
 filtersize=7;
  
 % % imshow(fftshift(ifft2(ifftshift(Kspace_image(:,:,30))),[])) 
 % W0=fftshift(ifft2(ifftshift(Kspace_image(:,:,30))));
-  W0=Kspace_image(:,:,30);
-  W1=Kspace_image(:,:,30:31);
-  [row_kspace,column_kspace,size1]=size(Kspace_image); 
-  W0_x=fftshift(ifft2(ifftshift(Kspace_image(:,:,30))));
-  W1_x=fftshift(ifft2(ifftshift(Kspace_image(:,:,30:31))));
+W0=Kspace_image(:,:,30);
+W1=Kspace_image(:,:,30:31);
+[row_kspace,column_kspace,size1]=size(Kspace_image); 
+W0_x=fftshift(ifft2(ifftshift(Kspace_image(:,:,30))));
+W1_x=fftshift(ifft2(ifftshift(Kspace_image(:,:,30:31))));
 % 
 cartesian_mask=imread('Cartesian Mask'.png');
 cartesian_mask=logical(cartesian_mask);
@@ -46,15 +46,8 @@ figure,subplot(1,2,1), imshow(abs(ksp_rss).^0.125, []); title('k-space')
 subplot(1,2,2), imshow(abs(zf_rss), []); title('zero-filled recon')
 
 sens= bart('ecalib -m1', und2x2(:,:,1));
-% %  
-% sens = bart('slice 2 0', calib);
-
-%  reco =  bart('pics -S -R W:(bart bitmask 0 1):0:LAMBDA -i ITER',und2x2(:,:,1),sens)
 MASK = str2num(evalc("bart('bitmask 0 1')"));
 reco = bart(sprintf('pics -R W:%i:0:%g -i %i',MASK,LAMBDA,ITER),und2x2(:,:,1),sens);
-
-% reco = bart(sprintf('pics -l1 -r0.01 '',MASK,LAMBDA,ITER),und2x2(:,:,2),sens);
-
 
 sense_recon = squeeze(reco);
 figure, imshow(abs(sense_recon), []); title('ESPIRiT Reconstruction')
